@@ -1,0 +1,33 @@
+site_name: Documentação do Projeto PitStop
+
+theme:
+  name: material
+  logo: assets/PitStop.png 
+  palette:
+    
+    - scheme: default
+      primary: indigo 
+      accent: blue    
+      toggle:
+        icon: material/brightness-7
+        name: Mudar para o modo escuro
+    
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Mudar para o modo claro
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+
+nav:
+  - 'Início': 'index.md'
+  - 'Planejamento':
+    - 'Backlog do Produto': 'backlog.md'
+  - 'Arquitetura e Design':
+    - 'Arquitetura do Sistema': 'arquitetura.md'
+    - 'Diagrama de Classes UML': 'diagrama_UML.md'
+    - 'Protótipo (V0)': 'prototipo.md'
