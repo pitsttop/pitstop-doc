@@ -4,14 +4,13 @@ theme:
   name: material
   logo: assets/baixaFidelidade/PitStop.png
   palette:
-    
     - scheme: default
-      primary: indigo 
-      accent: blue    
+      primary: indigo
+      accent: blue
       toggle:
         icon: material/brightness-7
         name: Mudar para o modo escuro
-    
+
     - scheme: slate
       primary: indigo
       accent: blue
@@ -24,12 +23,12 @@ theme:
     - search.suggest
 
 nav:
-  - 'Início': 'index.md'
-  - 'Planejamento':
-    - 'Backlog do Produto': 'backlog.md'
-  - 'Arquitetura e Design':
-    - 'Arquitetura do Sistema': 'arquitetura.md'
-    - 'Diagrama de Classes UML': 'diagrama_UML.md'
-    - 'Protótipo (V0)': 'prototipo.md'
-  - 'Protótipo Final': 'prototipoFinal.md'
-  - 'Modelagem Física': 'Dados.md'
+  - "Início": "index.md"
+  - "Planejamento":
+      - "Backlog do Produto": "backlog.md"
+  - "Arquitetura e Design":
+      - "Arquitetura do Sistema": "arquitetura.md"
+      - "Diagrama de Classes UML": "diagrama_UML.md"
+      - "Protótipo (V0)": "prototipo.md"
+  - "Protótipo Final": "prototipoFinal.md"
+  - "Modelagem Física": "Dados.md"

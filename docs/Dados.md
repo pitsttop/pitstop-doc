@@ -11,4 +11,3 @@ O diagrama acima representa a modelagem conceitual do domínio de dados do PitSt
 - **Entidades** (retângulos) sintetizam objetos centrais do domínio, como clientes, veículos, ordens de serviço e usuários autenticados.
 - **Relacionamentos** (losangos ou conexões) explicam como as entidades interagem. Por exemplo, um cliente pode possuir vários veículos, e cada ordem de serviço associa um veículo a intervenções técnicas.
 - **Cardinalidades** indicam restrições de quantidade, garantindo regras como "um veículo pertence a exatamente um cliente" ou "uma ordem pode listar várias peças e serviços".
-

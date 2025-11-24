@@ -9,6 +9,7 @@ Este documento descreve a arquitetura atual do ecossistema PitStop. O projeto es
 ## Visão Geral
 
 O PitStop adota uma arquitetura multi-repositório formada por três serviços principais:
+
 - **Frontend**: SPA responsável pela experiência do usuário.
 - **Backend**: API REST que centraliza regras de negócio, integrações e persistência.
 - **Autenticação**: serviço dedicado a identidade, autorização e emissão de tokens.
