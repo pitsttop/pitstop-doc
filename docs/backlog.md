@@ -19,9 +19,6 @@ Esta é a lista completa de todas as funcionalidades (Histórias de Usuário) le
 ### C-1: Login no Sistema
 > **Como um** `Cliente registrado`, **eu quero** `fazer login no sistema com meu email e senha`, **para que** `eu possa acessar minha área pessoal`.
 
-### C-2: Gerenciar Veículos
-> **Como um** `Cliente`, **eu quero** `cadastrar, editar ou excluir um veículo do meu perfil`, **para que** `eu possa manter minha lista de carros sempre atualizada`.
-
 ### C-3: Solicitar Agendamento
 > **Como um** `Cliente`, **eu quero** `solicitar um agendamento de serviço para um dos meus veículos`, **para que** `eu possa marcar uma visita à oficina de forma conveniente e online`.
 
@@ -30,12 +27,6 @@ Esta é a lista completa de todas as funcionalidades (Histórias de Usuário) le
 
 ### C-5: Ver Histórico de Serviços
 > **Como um** `Cliente`, **eu quero** `acessar o histórico de todas as ordens de serviço já concluídas`, **para que** `eu possa ter um registro completo do que foi feito no meu carro`.
-
-### C-6: Ver Tabela de Preços
-> **Como um** `Cliente`, **eu quero** `ver a tabela de preços dos serviços e peças oferecidos pela oficina`, **para que** `eu possa ter uma referência de custos`.
-
-### C-7: Editar Perfil
-> **Como um** `Cliente`, **eu quero** `editar minhas informações de perfil`, **para que** `meus dados de contato estejam sempre atualizados`.
 
 
 
@@ -68,9 +59,8 @@ Esta é a lista completa de todas as funcionalidades (Histórias de Usuário) le
 > **Como um** `Administrador`, **eu quero** `ver um dashboard com métricas simples (faturamento, total de ordens, etc.)`, **para que** `eu possa acompanhar a saúde financeira do negócio`.
 
 ### A-9: Gerenciar Usuários Internos
-> **Como um** `Administrador`, **eu quero** `criar e desativar outras contas de Administrador`, **para que** `eu possa controlar quem tem acesso total ao sistema`.
+> **Como um** `Administrador`, **eu quero** `criar outras contas de Administrador`, **para que** `eu possa controlar quem tem acesso total ao sistema`.
 
-### A-10: 
-> **Como um** `Administrador`, **eu quero** `visualizar a página de detalhes de um cliente específico`, **para que** `eu possa ver todas as suas informações de contato, seus veículos e seu histórico de ordens de serviço em um só lugar.`
+
 
 

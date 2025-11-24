@@ -16,6 +16,8 @@ Acesse as principais seções da documentação através dos links abaixo:
 * [**Arquitetura do Sistema**](./arquitetura.md): Uma descrição detalhada das decisões de arquitetura, tecnologias e padrões utilizados.
 * [**Diagrama de Classes UML**](./diagrama_UML.md): O modelo visual da estrutura de dados e dos serviços do sistema.
 * [**Protótipo (V0)**](./prototipo.md): As telas da primeira versão do protótipo que guiam o desenvolvimento da interface.
+* [**Protótipo Final**](./prototipoFinal.md): As telas da versão final do projeto.
+* [**Modelagem Física**](./Dados.md): O Diagrama-Entidade-Relacionamento sobre o projeto
 
 ## Principais Tecnologias
 

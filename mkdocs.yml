@@ -2,7 +2,7 @@ site_name: Documentação do Projeto PitStop
 
 theme:
   name: material
-  logo: assets/PitStop.png 
+  logo: assets/baixaFidelidade/PitStop.png
   palette:
     
     - scheme: default
@@ -31,3 +31,5 @@ nav:
     - 'Arquitetura do Sistema': 'arquitetura.md'
     - 'Diagrama de Classes UML': 'diagrama_UML.md'
     - 'Protótipo (V0)': 'prototipo.md'
+  - 'Protótipo Final': 'prototipoFinal.md'
+  - 'Modelagem Física': 'Dados.md'

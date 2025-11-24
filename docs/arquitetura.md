@@ -1,56 +1,112 @@
-# Arquitetura do Sistema PitStop
+# Arquitetura do Ecossistema PitStop
 
 ## ⚠️ Status do Projeto: Em Desenvolvimento
 
-Este documento descreve a arquitetura planejada e o estado atual do projeto PitStop. É importante notar que o projeto está em desenvolvimento ativo. Portanto, todas as suas partes — Frontend, Backend, Banco de Dados e a própria documentação — estão sujeitas a alterações, refatorações e melhorias contínuas à medida que novas funcionalidades são implementadas e os requisitos são refinados.
+Este documento descreve a arquitetura atual do ecossistema PitStop. O projeto está em evolução constante; portanto, fluxos, componentes e integrações seguem em revisão à medida que novos requisitos surgem.
 
 ---
 
 ## Visão Geral
 
-A arquitetura do projeto PitStop foi projetada seguindo um modelo moderno de 3 camadas, com componentes desacoplados para garantir manutenibilidade e escalabilidade. As três camadas principais são: Frontend (Cliente), Backend (Servidor da API) e Banco de Dados.
+O PitStop adota uma arquitetura multi-repositório formada por três serviços principais:
+- **Frontend**: SPA responsável pela experiência do usuário.
+- **Backend**: API REST que centraliza regras de negócio, integrações e persistência.
+- **Autenticação**: serviço dedicado a identidade, autorização e emissão de tokens.
 
-## Componentes Principais
+Os serviços comunicam-se via HTTP, compartilhando contratos REST e políticas de segurança unificadas. O banco de dados PostgreSQL sustenta tanto o backend quanto o módulo de autenticação, cada qual com seu schema e migrações versionadas via Prisma.
 
-### Frontend (Cliente)
+## Repositórios e Responsabilidades
 
-Uma Single-Page Application (SPA) construída com **React** e **TypeScript**, utilizando **Vite** como ferramenta de build. É responsável por toda a interface do usuário e pela experiência de interação.
+- `pitstop-frontend`: interface web desenvolvida em React + TypeScript, com rotas protegidas por token JWT.
+- `pitstop-backend`: API em Node.js + Express que orquestra operações de clientes, veículos, ordens e integrações internas.
+- `pitstop-auth`: serviço independente de autenticação/autorização, responsável por cadastro, login, emissão e validação de JWTs.
+- `pitstop-doc`: documentação oficial (este repositório), construída com MkDocs.
 
-* **Tecnologias e Padrões:**
-    * **React:** Biblioteca principal para a construção da interface.
-    * **TypeScript:** Garante a segurança de tipos e melhora a manutenibilidade.
-    * **Estilização:** Utiliza **Tailwind CSS** e a biblioteca de componentes **Shadcn/UI** para criar uma interface moderna e consistente de forma rápida.
-    
+Cada repositório possui ciclo próprio de build/test/deploy, permitindo evoluir funcionalidades de forma isolada, mas com contratos bem definidos para integração.
 
-### Backend (Servidor)
+## Serviço de Autenticação (`pitstop-auth`)
 
-Uma **REST API** construída com **Node.js** e **TypeScript**, utilizando o micro-framework **Express.js** para o gerenciamento de rotas e requisições. É o cérebro do sistema, responsável por toda a lógica de negócio, validações e segurança.
+### Visão Geral
 
-### Banco de Dados
+- Serviço Node.js + TypeScript baseado em Express 5.
+- Persistência via Prisma ORM conectado a PostgreSQL.
+- Fluxo completo de cadastro, login, geração de JWT e rota protegida.
+- Hash seguro com `bcryptjs` e seeds para criar administrador padrão.
 
-Um banco de dados relacional **PostgreSQL**, gerenciado e executado em um contêiner **Docker** para garantir um ambiente de desenvolvimento e produção consistente e isolado.
+### Estrutura do Repositório
 
-* **ORM (Object-Relational Mapper):** A comunicação entre o backend e o banco de dados é totalmente gerenciada pelo **Prisma**. O Prisma serve como a camada de acesso a dados, provendo segurança de tipos e simplificando as consultas.
-* **Evolução do Schema:** A evolução da estrutura do banco de dados (criação de tabelas, adição de colunas, etc.) é gerenciada de forma versionada através do **Prisma Migrate**.
-* **Dados Iniciais:** Dados essenciais, como o usuário administrador padrão, são populados no banco através de um script de **seed** do Prisma.
+- `src/app.ts`: montagem do Express, middlewares globais e registro de rotas.
+- `src/server.ts`: ponto de entrada que sobe o servidor HTTP.
+- `src/auth.routes.ts`: rotas públicas (`signup`, `login`) com validações e respostas padronizadas.
+- `src/services/user.services.ts`: criação/autenticação de usuários via Prisma e `bcrypt`.
+- `src/middlewares/auth.middlewares.ts`: middleware `authorize` que valida JWT e aplica controle de acesso por roles.
+- `prisma/schema.prisma`: modelo de dados (tabela `User`) e `migrations/` versionadas.
+- `prisma/seed.ts`: script opcional que insere o usuário administrador.
+- `test/`: suíte com Jest + Supertest cobrindo fluxo E2E, middleware e serviços.
 
-## Estrutura de Repositórios
+### Stack e Dependências
 
-O projeto adota uma abordagem multi-repo para separar as responsabilidades:
-* **`pitstop-frontend`**: Contém todo o código da aplicação do cliente.
-* **`pitstop-backend`**: Contém todo o código do servidor da API.
-* **`pitstop-doc`**: Contém a documentação do projeto (este site).
+- Runtime: Node.js 18+ (TypeScript compilado para CommonJS).
+- Framework: Express 5.
+- ORM/DB: Prisma + PostgreSQL.
+- Segurança: `bcryptjs` para hash e `jsonwebtoken` para tokens.
+- Testes: Jest + `ts-jest`, Supertest para cenários E2E.
 
-## Arquitetura do Backend (Camadas)
+## Backend API (`pitstop-backend`)
 
-O backend é estruturado em camadas para separar as preocupações:
-1.  **Camada de Rotas (Routes):** Define os endpoints da API (`/clientes`, `/ordens`, etc.) e direciona as requisições, validando os dados de entrada.
-2.  **Camada de Serviços (Services):** Contém a lógica de negócio principal do sistema. É aqui que as regras são aplicadas (ex: "apenas um admin pode criar outro admin"). Esta camada é a única que se comunica com a camada de dados.
-3.  **Camada de Acesso a Dados (Prisma):** É a camada mais baixa, composta pelo Prisma Client, responsável exclusivamente por executar as operações de leitura e escrita no banco de dados.
+### Arquitetura e Tecnologias
 
-## Autenticação e Autorização
+- Linguagem TypeScript sobre Node.js.
+- Express com middlewares para CORS, logging (`morgan`) e parsing de JSON.
+- Autorização via JWT com `UserRole.ADMIN` e `UserRole.CLIENT`.
+- Prisma ORM conectado a PostgreSQL.
+- Testes com Jest (`ts-jest`) divididos em unitários, integração e E2E.
+- Ferramentas auxiliares: ESLint, Prettier, `ts-node-dev` e `dotenv`.
 
-O sistema utiliza um modelo de **Controle de Acesso Baseado em Papéis (RBAC)**.
-* A entidade `User` possui um campo `role` (ex: `ADMIN`, `CLIENT`) que define o nível de permissão.
-* A autenticação será feita via **JSON Web Tokens (JWT)**. Um usuário enviará seu email e senha para um endpoint `POST /login`. Se as credenciais forem válidas, o servidor retornará um token JWT.
-* Para acessar rotas protegidas, o frontend deverá enviar este token no cabeçalho `Authorization` de cada requisição. Um middleware no backend será responsável por validar o token e o `role` do usuário antes de permitir que a requisição prossiga.
+### Estrutura de Pastas
+
+- `src/app.ts`: configuração principal do Express.
+- `src/index.ts`: bootstrap do servidor HTTP.
+- `src/middlewares/`: middlewares de autorização e utilidades.
+- `src/routes/`: rotas REST (clientes, veículos, ordens etc.).
+- `src/services/`: camada de regras de negócio e acesso ao Prisma.
+- `tests/`: cobertura unitária, integração e E2E.
+
+### Infraestrutura e Suporte
+
+- `prisma/schema.prisma`: modelagem das entidades (clientes, veículos, ordens etc.).
+- `prisma/migrations/`: histórico versionado das alterações de schema.
+- `prisma/seed.ts`: script para popular dados iniciais.
+- `generated/`: cliente Prisma gerado automaticamente.
+- `docker-compose.yml`: orquestra banco e serviços auxiliares.
+- `Dockerfile`: build da imagem Node/Prisma.
+- `jest.config.js` e `jest-e2e.config.js`: configuração das suítes de testes.
+- `package.json`: scripts de build, testa e lint.
+
+## Frontend Web (`pitstop-frontend`)
+
+### Arquitetura
+
+- SPA construída com React + TypeScript e bundling via Vite.
+- `App.tsx`: roteamento condicional baseado em token/role fornecido pelo `AuthProvider`.
+- `components/`: biblioteca de componentes com `data-testid` para facilitar testes.
+- `hooks/useAuth.tsx`: abstração de login, cadastro, refresh e persistência de sessão.
+- `hooks/useApi.tsx`: encapsula chamadas REST para clientes, veículos, ordens etc. com axios.
+- `services/`: configuração do cliente HTTP e endpoints de autenticação.
+- `main.tsx`: bootstrap padrão da aplicação React/Vite.
+
+### Experiência do Usuário
+
+- Integração com o serviço de autenticação para obter e renovar JWT.
+- Proteção de rotas e controle de visibilidade conforme o papel (`ADMIN` ou `CLIENT`).
+- Feedbacks consistentes via componentes reutilizáveis.
+
+## Integração entre Serviços
+
+- O frontend consome o backend via REST, enviando o JWT persistido no `AuthProvider`.
+- O backend delega operações de identidade ao `pitstop-auth`, validando tokens recebidos e aplicando regras de autorização.
+- Tanto backend quanto autenticação compartilham práticas de versionamento do Prisma e pipelines de testes automatizados para garantir contratos compatíveis.
+
+## Considerações Finais
+
+A separação em repositórios independentes favorece isolamento de domínio, escalabilidade horizontal e ciclos de deploy mais curtos. A documentação acompanha as evoluções garantindo canal único de comunicação arquitetural para o time.
