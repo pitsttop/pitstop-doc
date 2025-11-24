@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./docs/assets/PitStop.png" alt="Logo do Projeto PitStop" width="250">
+  <img src="./docs/assets/baixaFidelidade/PitStop.png" alt="Logo do Projeto PitStop" width="250">
 </p>
 
 # 📄 Documentação do Projeto PitStop
